@@ -1,13 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class commen_Raised_button extends StatelessWidget {
   commen_Raised_button({
-    this.borderRadius : 2.0,
+    this.borderRadius: 2.0,
     required this.child,
     required this.color,
     required this.onPressed,
-    this.height : 50.0,
+    this.height: 50.0,
   }) : assert(borderRadius != null);
 
   final Widget child;
@@ -28,7 +27,7 @@ class commen_Raised_button extends StatelessWidget {
             Radius.circular(borderRadius),
           ),
         ),
-        onPressed:onPressed,
+        onPressed: onPressed,
       ),
     );
   }

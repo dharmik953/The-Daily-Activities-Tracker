@@ -1,21 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter_app/commen_widget/form_submit_button.dart';
+import 'package:time_tracker_flutter_app/commen_widget/show_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_app/services/auth.dart';
 
 enum EmailSignInFormType { signin, register }
 
-class EmailSignInForm extends StatefulWidget {
-  const EmailSignInForm({Key? key, required this.auth}) : super(key: key);
-
-  final authBase auth;
+class EmailSignInFormStateful extends StatefulWidget {
+  const EmailSignInFormStateful({Key? key}) : super(key: key);
 
   @override
   _EmailSignInFormState createState() => _EmailSignInFormState();
 }
 
-class _EmailSignInFormState extends State<EmailSignInForm> {
+class _EmailSignInFormState extends State<EmailSignInFormStateful> {
   EmailSignInFormType _formType = EmailSignInFormType.signin;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -41,26 +40,19 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
 
   void _submit() async {
     try {
+      final auth = Provider.of<authBase>(context, listen: false);
       if (_formType == EmailSignInFormType.signin) {
-        await widget.auth.signInWithEmailAndPassWord(_email, _password);
+        await auth.signInWithEmailAndPassWord(_email, _password);
       } else {
-        await widget.auth.createUserWithEmailAndPassword(_email, _password);
+        await auth.createUserWithEmailAndPassword(_email, _password);
       }
       Navigator.of(context).pop();
     } on FirebaseException catch (e) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('Sign in Failed'),
-              content: Text(e.message.toString()),
-              actions: [
-                FlatButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: Text('Ok'))
-              ],
-            );
-          });
+      showExceptionAlertDialog(
+        context,
+        title: 'Sign in failed',
+        exception: e,
+      );
     }
   }
 
@@ -81,8 +73,6 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     final seconderyText = _formType == EmailSignInFormType.signin
         ? 'Need An account? register'
         : 'Have an account? Sign in';
-
-    bool submitEnable = _email.isNotEmpty && _password.isNotEmpty;
 
     return [
       TextField(
@@ -106,7 +96,6 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         textInputAction: TextInputAction.done,
         obscureText: true,
       ),
-
       SizedBox(height: 8.0),
       TextField(
         // controller: _username,

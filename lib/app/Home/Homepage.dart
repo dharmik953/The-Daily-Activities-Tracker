@@ -7,16 +7,19 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../commen_widget/form_submit_button.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.auth}) : super(key: key);
+class HomePageBJP extends StatefulWidget {
+  const HomePageBJP({Key? key, required this.auth}) : super(key: key);
 
   final authBase auth;
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    throw UnimplementedError();
+  }
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePageBJP> {
   TextEditingController firstname = TextEditingController();
   TextEditingController lastname = TextEditingController();
   TextEditingController partyPosition = TextEditingController();
