@@ -1,4 +1,4 @@
-# time_tracker_flutter_app
+# The Daily Activities Tracker 
 
 A new Flutter project.
 
